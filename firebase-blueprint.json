@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and subscription data",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "savedRecipes": { "type": "array", "items": { "type": "string" } },
+        "subscriptionStatus": { "type": "string", "enum": ["free", "premium"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "subscriptionStatus"]
+    },
+    "Recipe": {
+      "title": "Recipe",
+      "description": "Recipe details and instructions",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "instructions": { "type": "array", "items": { "type": "string" } },
+        "ingredients": { "type": "array", "items": { "type": "string" } },
+        "tribe": { "type": "string", "enum": ["Yoruba", "Igbo", "Hausa", "General"] },
+        "cookingTime": { "type": "number" },
+        "occasion": { "type": "string" },
+        "isPremium": { "type": "boolean" },
+        "imageUrl": { "type": "string" },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["title", "instructions", "ingredients", "isPremium"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Payment records",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "success", "failed"] },
+        "reference": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "amount", "status", "reference"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles"
+    },
+    "/recipes/{recipeId}": {
+      "schema": "Recipe",
+      "description": "Collection of available recipes"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Collection of payment transactions"
+    }
+  }
+}
